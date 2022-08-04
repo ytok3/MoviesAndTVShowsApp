@@ -9,6 +9,7 @@ import Foundation
 
 extension Constant {
     class Identifier {
+        static let MAIN_CELL = "MainCell"
         static let MOVIES_CELL = "MoviesCell"
         static let DETAILS_VC = "DetailsVC"
         static let CAST_CELL = "MoviesCastDetailsCell"

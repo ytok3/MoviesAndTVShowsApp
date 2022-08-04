@@ -9,6 +9,9 @@ import UIKit
 
 final class MoviesViewController: UIViewController {
     
+    private var mainCollectionViewCell: MainCollectionViewCell = MainCollectionViewCell()
+    
+    
     // MARK: View
     
     private let collectionView: UICollectionView = {
@@ -17,7 +20,7 @@ final class MoviesViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .white
-        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: Constant.Identifier.MOVIES_CELL)
+        collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: Constant.Identifier.MAIN_CELL)
         return collectionView
     }()
 
@@ -73,12 +76,13 @@ extension MoviesViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.Identifier.MOVIES_CELL, for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.Identifier.MAIN_CELL, for: indexPath)
                 as? MainCollectionViewCell else { return UICollectionViewCell() }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height / 3.7)
+        return CGSize(width: view.frame.width, height: view.frame.height / 3.6)
     }
 }
+
