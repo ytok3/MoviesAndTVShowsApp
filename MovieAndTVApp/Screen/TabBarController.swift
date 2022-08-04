@@ -20,10 +20,10 @@ class TabBarController: UITabBarController {
     
     func setUpVCs() {
         viewControllers = [
-            createNavController(for: MoviesViewController(), title: NSLocalizedString("Movies", comment: ""),
-                                   image: UIImage(systemName: "film.fill")!),
-            createNavController(for: TVShowsViewController(), title: NSLocalizedString("TV Shows", comment: ""),
-                                   image: UIImage(systemName: "tv.fill")!)
+            createNavController(for: MoviesViewController(), title: NSLocalizedString(Constant.TabBar.MOVIES, comment: ""),
+                                   image: UIImage(systemName: Constant.TabBar.MOVIES_ICON)!),
+            createNavController(for: TVShowsViewController(), title: NSLocalizedString(Constant.TabBar.TV_SHOWS, comment: ""),
+                                   image: UIImage(systemName: Constant.TabBar.TV_SHOWS_ICON)!)
         ]
     }
     
