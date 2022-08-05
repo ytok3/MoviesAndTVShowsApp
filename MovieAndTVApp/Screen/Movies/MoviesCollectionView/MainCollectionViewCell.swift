@@ -13,7 +13,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     
     // MARK: View
     
-    private let kindLabel: UILabel = {
+    var kindLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
@@ -23,7 +23,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
-        label.text = "Top Rated Movies"
+       
         return label
     }()
     
@@ -36,6 +36,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         collectionView.register(MoviesCollectionViewCell.self, forCellWithReuseIdentifier: Constant.Identifier.MOVIES_CELL)
         return collectionView
     }()
+    
     
     // MARK: Init
     

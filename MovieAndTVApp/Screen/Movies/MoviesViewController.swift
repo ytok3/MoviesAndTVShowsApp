@@ -13,6 +13,8 @@ final class MoviesViewController: UIViewController {
     
     
     // MARK: View
+
+    private let moviesKind: [String] = [Constant.Kind.TOP_RATED , Constant.Kind.NOW_PLAYING, Constant.Kind.POPULAR]
     
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -23,13 +25,14 @@ final class MoviesViewController: UIViewController {
         collectionView.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: Constant.Identifier.MAIN_CELL)
         return collectionView
     }()
-
+    
     // MARK: LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.navigationBar.isHidden = true
+        
 
         setUpDelegate()
     }
@@ -65,7 +68,6 @@ final class MoviesViewController: UIViewController {
 
         ])
     }
-    
 }
 
 extension MoviesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -78,6 +80,7 @@ extension MoviesViewController: UICollectionViewDataSource, UICollectionViewDele
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.Identifier.MAIN_CELL, for: indexPath)
                 as? MainCollectionViewCell else { return UICollectionViewCell() }
+        cell.kindLabel.text = moviesKind[indexPath.item]
         return cell
     }
     

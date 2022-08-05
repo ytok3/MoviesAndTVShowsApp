@@ -15,7 +15,6 @@ protocol MoviesOutput: AnyObject {
     func listTRMovies(values: [Movies])
     func listNPMovies(values: [Movies])
     func listPMovies(values: [Movies])
-    
 }
 
 class MoviesCollectionViewFeatures: NSObject {
@@ -33,7 +32,7 @@ class MoviesCollectionViewFeatures: NSObject {
 // MARK: Extensions
 
 extension MoviesCollectionViewFeatures: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
     }
@@ -41,6 +40,8 @@ extension MoviesCollectionViewFeatures: UICollectionViewDelegate, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.Identifier.MOVIES_CELL, for: indexPath)
                 as? MoviesCollectionViewCell else { return UICollectionViewCell() }
+        cell.backgroundColor = .systemMint
+        
         return cell
     }
     
@@ -60,4 +61,5 @@ extension MoviesCollectionViewFeatures: UICollectionViewDelegate, UICollectionVi
         return CGSize(width: width, height: height)
         
     }
+   
 }
