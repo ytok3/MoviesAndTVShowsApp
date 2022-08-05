@@ -7,23 +7,24 @@
 
 import UIKit
 
-
 protocol MoviesOutput: AnyObject {
     
     func getHeight() -> CGFloat
     func onSelected(ID: Int)
-    func listTRMovies(values: [Movies])
-    func listNPMovies(values: [Movies])
-    func listPMovies(values: [Movies])
+    func listTopRated(values: [Movies])
+    func listNowPlaying(values: [Movies])
+    func listPopular(values: [Movies])
 }
 
 class MoviesCollectionViewFeatures: NSObject {
     
     // MARK: Properties
     
-    var resultsTopRated: [Movies] = []
-    var resultsNowPlaying: [Movies] = []
-    var resultsPopular: [Movies] = []
+    var topRated: [Movies] = []
+    var nowPlaying: [Movies] = []
+    var popular: [Movies] = []
+    
+    var title: String = ""
     
     weak var delegate: MoviesOutput?
     
@@ -34,15 +35,41 @@ class MoviesCollectionViewFeatures: NSObject {
 extension MoviesCollectionViewFeatures: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        
+        switch title {
+            
+        case Constant.Kind.TOP_RATED:
+            return topRated.count
+        case Constant.Kind.NOW_PLAYING:
+            return nowPlaying.count
+        case Constant.Kind.POPULAR:
+            return popular.count
+        default:
+            return 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.Identifier.MOVIES_CELL, for: indexPath)
-                as? MoviesCollectionViewCell else { return UICollectionViewCell() }
-        cell.backgroundColor = .systemMint
         
-        return cell
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: Constant.Identifier.MOVIES_CELL,
+            for: indexPath) as? MoviesCollectionViewCell
+        else { return UICollectionViewCell() }
+        
+        switch title {
+            
+        case Constant.Kind.TOP_RATED:
+            cell.saveMovies(model: topRated[indexPath.row])
+            return cell
+        case Constant.Kind.NOW_PLAYING:
+            cell.saveMovies(model: nowPlaying[indexPath.row])
+            return cell
+        case Constant.Kind.POPULAR:
+            cell.saveMovies(model: popular[indexPath.row])
+            return cell
+        default:
+            return UICollectionViewCell()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -58,8 +85,7 @@ extension MoviesCollectionViewFeatures: UICollectionViewDelegate, UICollectionVi
         let adjustedWith = collectioViewWith - spaceBetweenCells
         let width: CGFloat = floor(adjustedWith / colums)
         let height = (delegate?.getHeight() ?? 300.0 ) / 4
-        return CGSize(width: width, height: height)
         
+        return CGSize(width: width, height: height)
     }
-   
 }

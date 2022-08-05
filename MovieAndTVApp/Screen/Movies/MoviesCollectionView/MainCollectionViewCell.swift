@@ -10,6 +10,7 @@ import UIKit
 class MainCollectionViewCell: UICollectionViewCell {
     
     private var moviesCollectionViewFeatures: MoviesCollectionViewFeatures = MoviesCollectionViewFeatures()
+    lazy var moviesViewModel: MoviesViewModelProtocol = MoviesViewModel()
     
     // MARK: View
     
@@ -19,11 +20,10 @@ class MainCollectionViewCell: UICollectionViewCell {
         label.clipsToBounds = true
         label.textColor = .black
         label.backgroundColor = .white
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         label.numberOfLines = 0
-        label.textAlignment = .left
+        label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
-       
         return label
     }()
     
@@ -54,11 +54,11 @@ class MainCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         
         super.layoutSubviews()
-        let margins = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        let margins = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
         contentView.frame = contentView.frame.inset(by: margins)
         contentView.layer.cornerRadius = 5
         contentView.layer.borderWidth = 0.5
-        contentView.layer.borderColor = UIColor.black.cgColor
+        contentView.layer.borderColor = UIColor.white.cgColor
     
         setUpDelegate()
     }
@@ -72,6 +72,9 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         moviesCollectionViewFeatures.delegate = self
         
+        moviesViewModel.setDelegateMovies(output: self)
+        moviesViewModel.allMovies()
+        
         configureCells()
     }
     
@@ -79,6 +82,8 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         contentView.addSubview(kindLabel)
         contentView.addSubview(collectionView)
+        
+        moviesCollectionViewFeatures.title = kindLabel.text ?? " "
         
         configureCellsConstraint()
     }
@@ -93,11 +98,10 @@ class MainCollectionViewCell: UICollectionViewCell {
             kindLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             kindLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: kindLabel.bottomAnchor,constant: padding),
+            collectionView.topAnchor.constraint(equalTo: kindLabel.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding)
-
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }
@@ -105,6 +109,7 @@ class MainCollectionViewCell: UICollectionViewCell {
 // MARK: Extensions
 
 extension MainCollectionViewCell: MoviesOutput {
+    
     func getHeight() -> CGFloat {
         return contentView.bounds.height * 3.5
     }
@@ -113,17 +118,19 @@ extension MainCollectionViewCell: MoviesOutput {
         print(" ")
     }
     
-    
-    func listTRMovies(values: [Movies]) {
-        print(" ")
+    func listTopRated(values: [Movies]) {
+        moviesCollectionViewFeatures.topRated = values
+        collectionView.reloadData()
     }
     
-    func listNPMovies(values: [Movies]) {
-        print(" ")
+    func listNowPlaying(values: [Movies]) {
+        moviesCollectionViewFeatures.nowPlaying = values
+        collectionView.reloadData()
     }
     
-    func listPMovies(values: [Movies]) {
-        print(" ")
+    func listPopular(values: [Movies]) {
+        moviesCollectionViewFeatures.popular = values
+        collectionView.reloadData()
     }
 }
 

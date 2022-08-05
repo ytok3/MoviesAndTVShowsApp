@@ -9,13 +9,13 @@ import UIKit
 
 final class MoviesViewController: UIViewController {
     
-    private var mainCollectionViewCell: MainCollectionViewCell = MainCollectionViewCell()
+    // MARK: Properties
     
+    private var mainCollectionViewCell: MainCollectionViewCell = MainCollectionViewCell()   
+    private let moviesKind: [String] = [Constant.Kind.TOP_RATED , Constant.Kind.NOW_PLAYING, Constant.Kind.POPULAR]
     
     // MARK: View
 
-    private let moviesKind: [String] = [Constant.Kind.TOP_RATED , Constant.Kind.NOW_PLAYING, Constant.Kind.POPULAR]
-    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -33,7 +33,6 @@ final class MoviesViewController: UIViewController {
         
         navigationController?.navigationBar.isHidden = true
         
-
         setUpDelegate()
     }
     
@@ -65,7 +64,6 @@ final class MoviesViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -padding)
-
         ])
     }
 }
@@ -78,8 +76,11 @@ extension MoviesViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.Identifier.MAIN_CELL, for: indexPath)
-                as? MainCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: Constant.Identifier.MAIN_CELL,
+            for: indexPath) as? MainCollectionViewCell
+        else { return UICollectionViewCell()
+        }
         cell.kindLabel.text = moviesKind[indexPath.item]
         return cell
     }
